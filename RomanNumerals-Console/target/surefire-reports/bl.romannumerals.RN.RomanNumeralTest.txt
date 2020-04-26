@@ -1,0 +1,49 @@
+-------------------------------------------------------------------------------
+Test set: bl.romannumerals.RN.RomanNumeralTest
+-------------------------------------------------------------------------------
+Tests run: 24, Failures: 5, Errors: 0, Skipped: 0, Time elapsed: 0.057 sec <<< FAILURE!
+bl.romannumerals.RN.RomanNumeralTest.testConvertArabicToRoman_3()  Time elapsed: 0.036 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <cv> but was: <CV>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:508)
+	at bl.romannumerals.RN.RomanNumeralTest.testConvertArabicToRoman_3(RomanNumeralTest.java:161)
+
+bl.romannumerals.RN.RomanNumeralTest.testConvertArabicToRoman_4()  Time elapsed: 0.004 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <m> but was: <M>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:508)
+	at bl.romannumerals.RN.RomanNumeralTest.testConvertArabicToRoman_4(RomanNumeralTest.java:167)
+
+bl.romannumerals.RN.RomanNumeralTest.testConvertArabicToRoman_5()  Time elapsed: 0.003 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <xxvii> but was: <XXVII>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:508)
+	at bl.romannumerals.RN.RomanNumeralTest.testConvertArabicToRoman_5(RomanNumeralTest.java:173)
+
+bl.romannumerals.RN.RomanNumeralTest.testConvertArabicToRoman_2()  Time elapsed: 0.001 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <xi> but was: <XI>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:508)
+	at bl.romannumerals.RN.RomanNumeralTest.testConvertArabicToRoman_2(RomanNumeralTest.java:155)
+
+bl.romannumerals.RN.RomanNumeralTest.testConvertArabicToRoman_1()  Time elapsed: 0.002 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <i> but was: <I>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:54)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:195)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:184)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:179)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:508)
+	at bl.romannumerals.RN.RomanNumeralTest.testConvertArabicToRoman_1(RomanNumeralTest.java:149)
+
