@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Convert back and forth between Roman and Arabic numerals.">
+        <meta name="author" content="Ben Leboot">
+        <meta name="date.created" content="2020-04-30">
+        <meta name="date.modified" content="2020-04-30">
+               
+        <!-- Title for document -->
+        <title>Ben's Roman Numeral Converter</title>
+
+        <!-- External Links -->
+            <!-- Latest compiled and minified CSS -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+            <!-- jQuery library -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <!-- Latest compiled JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        
+        <!-- CSS, Custom, Internal -->
+        <style>
+            body {
+                background-color: rgb(253, 251, 247);
+            }
+
+            #bodywrap {
+                margin: auto;
+                overflow: hidden;
+                max-width: 1284px;
+            }
+
+            #noscript {
+                text-align: center;
+                color: rgb(153, 6, 6);
+                background-color: rgb(252, 153, 142);
+                padding: 5px;
+            }
+
+            .header-footer {
+                text-align: center;
+                color: brown;
+                background-color: rgb(247, 205, 129);
+                padding: 10px;
+            }
+
+            header{
+                height: 70px;
+            }
+
+            footer {
+                width: 100%;
+                height: 60px;
+            }
+
+            #page-content {
+                background-color: antiquewhite;
+                height: calc(100vh - 130px);
+                text-align: center;
+            }
+
+            form {
+                margin: auto;
+                padding: 30px;
+            }
+
+            .input-rn-converter {
+                width: 200px;
+                height: 50px;
+                margin: 0px 3px;
+                padding: 10px;
+                border: 1px solid rgb(151, 97, 97);
+                border-radius: 2px;
+            }
+
+            .rn-form-button {
+                width: 100px;
+                height: 30px;
+                margin: 0px 3px;
+                color: rgb(59, 38, 38);
+                border: 1px solid rgb(151, 97, 97);
+                border-radius: 2px;
+                background-color: rgb(238, 236, 236);
+            }
+
+            .rn-form-button:hover {
+                background-color: rgb(214, 210, 210);
+            }
+
+            #div-form-buttons {
+                margin-top: 10px;
+            }
+
+            #error-div {
+                color: red;
+                margin: 1px;
+            }
+
+            /* @Media Screens */
+            @media screen and (min-width: 601px) {
+                header {
+                    font-size: 36px;
+                }
+            }
+
+            @media screen and (max-width: 600px) {
+                header {
+                    font-size: 30px;
+                }
+            }
+
+        </style>
+
+    </head> <!-- END HEAD ====================================================================================== -->
+    
+    <body>
+        <div id="bodywrap">
+            <noscript><div id="noscript"><h2>Warning: This page does not function properly with JavaScript disabled.</h2></div></noscript>
+
+            <header class="header-footer">Ben's Roman Numeral Converter</header>
+            
+            <section id="page-content">
+                <form autocomplete="off"; onsubmit="submissionAttempt()">
+                    <input class="input-rn-converter" id="input-roman" placeholder="Roman Numeral">
+                    <input class="input-rn-converter" id="input-arabic" placeholder="Arabic Numeral">
+                    <div id="error-div"></div>
+                    <div id="div-form-buttons">
+                        <button type="submit" class="rn-form-button">Convert</button>
+                        <button type="button" class="rn-form-button" onclick="resetPage()">Clear Input</button>
+                    </div>
+                </form>
+            </section>
+
+            <footer class="header-footer">
+                <div>Created by LeBoot Websites</div>
+                <div>Copyright © 2020</div>
+            </footer>
+        </div>
+    <script>
+        const inputRoman = document.getElementById("input-roman");
+        const inputArabic = document.getElementById("input-arabic");
+        const errorDiv = document.getElementById("error-div");
+        var lastRoman, lastArabic;
+
+        $(document).ready(resetPage());
+
+        function resetPage() {
+            clearAllFields();
+            clearAllErrors();
+        }
+
+        function clearAllErrors() {
+            errorDiv.innerText = "";
+        }
+
+        function clearAllFields() {
+            inputRoman.value = "";
+            inputArabic.value = "";
+        }
+
+        function submissionAttempt() {
+            event.preventDefault();
+
+            clearAllErrors();
+            var romanIn = inputRoman.value.trim();
+            var arabicIn = inputArabic.value.trim();
+
+            var isValid = validateInput(romanIn, arabicIn);
+            if (!isValid) {
+                return false;
+            }
+
+            clearAllFields();
+            if ((romanIn == lastRoman) && (arabicIn == lastRoman)) {
+                return false;
+            } else if ((romanIn.length < 1) || (romanIn == lastRoman)) {
+                convertArabicToRoman(arabicIn, romanIn);
+            } else if ((arabicIn.length < 1) || (arabicIn == lastArabic)){
+                convertRomanToArabic(romanIn, arabicIn);
+            } else {
+                errorDiv.innerText = "I'm not sure what you want me to do.";
+            }            
+        }
+
+        function validateInput(romanIn, arabicIn) {
+            const max = 5000;
+            const piArabicIn = parseInt(arabicIn);
+
+            if ((romanIn.length < 1) && (arabicIn.length < 1)) {
+                errorDiv.innerText = "You must fill in one of the fields.";
+                return false;
+            }
+            if ( (arabicIn.length > 0) && (
+                (isNaN(arabicIn)) || (arabicIn != piArabicIn) || (piArabicIn < 1) || (piArabicIn > max) 
+            )) {
+                errorDiv.innerText = "Plese enter a natural number no larger than " + max + ".";
+                return false;
+            }
+            // if (romanIn isnotavalidromannumeral) { //---------------------------------------------------------------------------------
+            //     errorDiv.innerText = "What you've entered is not a valid Roman numeral.";
+            //     return false;
+            // }
+            return true;
+        }
+
+        function convertArabicToRoman(arabicIn, romanIn) {
+
+            const answer = "New Roman Numerals"; //-------------------------------------------------------
+            lastArabic = arabicIn;
+            lastRoman = answer;
+            inputArabic.value = arabicIn;
+            inputRoman.value = answer; 
+        }
+
+        function convertRomanToArabic(romanIn, arabicIn) {
+            
+            const answer = "New Arabic Numerals"; //----------------------------------------
+            lastArabic = answer;
+            lastRoman = romanIn;
+            inputRoman.value = romanIn;
+            inputArabic.value = answer;
+        }
+
+    </script>
+
+        <!-- External Scripts -->
+            <!-- Full JQuery (with AJAX) -->
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+            <!-- Popper JS -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <!-- Bootstrap JS -->
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body> <!-- END BODY ====================================================================================== -->
+</html>
