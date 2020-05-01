@@ -88,7 +88,7 @@
                 errorDiv.innerText = "Plese enter a natural number no larger than " + max + ".";
                 return false;
             }
-            if (!romanIn.match(re)) {
+            if ((!romanIn.match(re)) && (romanIn != "MMMMM")) {
                 errorDiv.innerText = "What you've entered is not a valid Roman numeral.";
                 return false;
             }
