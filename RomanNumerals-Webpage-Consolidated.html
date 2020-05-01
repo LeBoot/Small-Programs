@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Convert back and forth between Roman and Arabic numerals.">
+        <meta name="author" content="Ben Leboot">
+        <meta name="date.created" content="2020-04-30">
+        <meta name="date.modified" content="2020-05-01">
+        <title>Ben's Roman Numeral Converter</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <style>
+            body {background-color: rgb(253, 251, 247); font-family: "Georgia", Times, serif;}
+            #bodywrap {margin: auto; overflow: hidden; max-width: 1284px;}
+            #noscript {text-align: center; color: rgb(153, 6, 6); background-color: rgb(252, 153, 142); padding: 5px;}
+            .header-footer {text-align: center;color: brown; background-color: rgb(247, 205, 129); padding: 10px;}
+            header{height: 70px;}
+            footer {width: 100%; height: 60px;}
+            #page-content {background-color: antiquewhite; height: calc(100vh - 130px); text-align: center;}
+            form {margin: auto; padding: 30px;}
+            .input-rn-converter {width: 200px; height: 50px; margin: 0px 3px; padding: 10px; border: 1px solid rgb(151, 97, 97); border-radius: 2px; font-size: 20px;}
+            .rn-form-button {width: 100px; height: 30px; margin: 0px 3px; color: rgb(59, 38, 38); border: 1px solid rgb(151, 97, 97); border-radius: 2px; background-color: rgb(238, 236, 236);}
+            .rn-form-button:hover {background-color: rgb(214, 210, 210);}
+            #div-form-buttons {margin-top: 10px;}
+            #error-div {color: red; margin: 1px;}
+            @media screen and (min-width: 601px) {header {font-size: 36px;}}
+            @media screen and (min-width: 481px) and (max-width: 600px) {header {font-size: 30px;}}
+            @media screen and (max-width: 480px) {header {font-size: 26px;}.input-rn-converter {margin: 3px;font-size: 17px;}}
+        </style>
+    </head>
+    <body>
+        <div id="bodywrap">
+            <noscript><div id="noscript"><h2>Warning: This page does not function properly with JavaScript disabled.</h2></div></noscript>
+            <header class="header-footer">Ben's Roman Numeral Converter</header>
+            <section id="page-content">
+                <form autocomplete="off"; onsubmit="submissionAttempt()">
+                    <input class="input-rn-converter" id="input-roman" placeholder="Roman">
+                    <input class="input-rn-converter" id="input-arabic" placeholder="Arabic">
+                    <div id="error-div"></div>
+                    <div id="div-form-buttons">
+                        <button type="submit" class="rn-form-button">Convert</button>
+                        <button type="button" class="rn-form-button" onclick="resetPage()">Clear Input</button>
+                    </div>
+                </form>
+            </section>
+            <footer class="header-footer">
+                <div>Created by LeBoot Websites</div>
+                <div>Copyright © 2020</div>
+            </footer>
+        </div>
+    <script>
+        const inputRoman = document.getElementById("input-roman");
+        const inputArabic = document.getElementById("input-arabic");
+        const errorDiv = document.getElementById("error-div");
+        var lastRoman, lastArabic;
+        $(document).ready(resetPage());
+        function resetPage() {clearAllFields(); clearAllErrors();}
+        function clearAllErrors() {errorDiv.innerText = "";}
+        function clearAllFields() {inputRoman.value = ""; inputArabic.value = "";}
+        function submissionAttempt() {
+            event.preventDefault();
+            clearAllErrors();
+            var romanIn = inputRoman.value.trim().toUpperCase();
+            var arabicIn = inputArabic.value.trim();
+            var isValid = validateInput(romanIn, arabicIn);
+            if (!isValid) {return false;}
+            if ((romanIn == lastRoman) && (arabicIn == lastArabic)) {return false;}
+            clearAllFields();
+            if (romanIn.length < 1) {convertArabicToRoman(arabicIn, romanIn);}
+            else if (arabicIn.length < 1) {convertRomanToArabic(romanIn, arabicIn);}
+            else if (romanIn == lastRoman) {convertArabicToRoman(arabicIn, romanIn);}
+            else if (arabicIn == lastArabic) {convertRomanToArabic(romanIn, arabicIn);}
+            else {errorDiv.innerText = "I'm not sure what you wanted me to do with two new inputs.";}           
+        }
+        function validateInput(romanIn, arabicIn) {
+            const max = 5000;
+            const re = /^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
+            const piArabicIn = parseInt(arabicIn);
+            if ((romanIn.length < 1) && (arabicIn.length < 1)) {
+                errorDiv.innerText = "You must fill in one of the fields.";
+                return false;
+            }
+            if ( (arabicIn.length > 0) && (
+                (isNaN(arabicIn)) || (arabicIn != piArabicIn) || (piArabicIn < 1) || (piArabicIn > max) 
+            )) {
+                errorDiv.innerText = "Plese enter a natural number no larger than " + max + ".";
+                return false;
+            }
+            if (!romanIn.match(re)) {
+                errorDiv.innerText = "What you've entered is not a valid Roman numeral.";
+                return false;
+            }
+            return true;
+        }
+        function convertArabicToRoman(arabicIn, romanIn) {
+            var output = "";
+            var arabic = arabicIn;
+            while ((arabic - 1000) >= 0) {output += "M"; arabic -= 1000;}
+            if ((arabic - 900) >= 0) {output += "CM"; arabic -= 900;}
+            if ((arabic - 500) >= 0) {output += "D"; arabic -= 500;}
+            if ((arabic - 400) >= 0) {output += "CD"; arabic -= 400;}
+            while ((arabic - 100) >= 0) {output += "C"; arabic -= 100;}
+            if ((arabic - 90) >= 0) {output += "XC"; arabic -= 90;}
+            if ((arabic - 50) >= 0) {output += "L"; arabic -= 50;}
+            if ((arabic - 40) >= 0) {output += "XL"; arabic -= 40;}
+            while ((arabic - 10) >= 0) {output += "X"; arabic -= 10;}
+            if ((arabic - 9) >= 0) {output += "IX"; arabic -= 9;}
+            if ((arabic - 5) >= 0) {output += "V"; arabic -= 5;}
+            if ((arabic - 4) >= 0) {output += "IV"; arabic -= 4;}
+            while ((arabic - 1) >= 0) {output += "I"; arabic -= 1;}
+            lastArabic = arabicIn;
+            lastRoman = output;
+            inputArabic.value = arabicIn;
+            inputRoman.value = output; 
+        }
+        function convertRomanToArabic(romanIn, arabicIn) {
+            var arabic = 0;
+            var rn = romanIn;            
+            if (rn.includes("CM")) {arabic += 900; rn = rn.replace("CM", "");}
+            while (rn.includes("M")) {arabic += 1000; rn = rn.replace("M", "");}
+            if (rn.includes("CD")) {arabic += 400; rn = rn.replace("CD", "");}
+            if (rn.includes("D")) {arabic += 500; rn = rn.replace("D", "");}
+            if (rn.includes("XC")) {arabic += 90; rn = rn.replace("XC", "");}
+            while (rn.includes("C")) {arabic += 100; rn = rn.replace("C","");}
+            if (rn.includes("XL")) {arabic += 40; rn = rn.replace("XL", "");}
+            if (rn.includes("L")) {arabic += 50; rn = rn.replace("L", "");}
+            if (rn.includes("IX")) {arabic += 9; rn = rn.replace("IX", "");}
+            while (rn.includes("X")) {arabic += 10; rn = rn.replace("X", "");}
+            if (rn.includes("IV")) {arabic += 4; rn = rn.replace("IV", "");}
+            if (rn.includes("V")) {arabic += 5; rn = rn.replace("V", "");}
+            while (rn.includes("I")) {arabic += 1; rn = rn.replace("I", "");}
+            lastArabic = arabic;
+            lastRoman = romanIn;
+            inputRoman.value = romanIn;
+            inputArabic.value = arabic;
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>        
+    </body>
+</html>
