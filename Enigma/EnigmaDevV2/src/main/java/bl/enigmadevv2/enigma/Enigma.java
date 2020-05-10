@@ -12,6 +12,6 @@ package bl.enigmadevv2.enigma;
 public interface Enigma {
     
     EnigmaEntity encryptPassword(String input) throws EnigmaException;
-    boolean isPasswordCorrect(String input, EnigmaEntity ee) throws EnigmaException;
+    boolean doPasswordsMatch(String input, EnigmaEntity ee);
     
 }
