@@ -29,6 +29,15 @@ public class EnigmaImpl implements Enigma {
     //PUBLIC METHODS ===========================================================
     //--------------------------------------------------------------------------
     @Override
+    public boolean doPasswordsMatch(String input, EnigmaEntity ee) {
+        try {
+            return input.equals(decrypt(ee));
+        } catch (EnigmaException e) {
+            return false;
+        }
+    }
+    
+    @Override
     public EnigmaEntity encryptPassword(String input) throws EnigmaException {
         try {
             validateInput(input);
@@ -36,15 +45,6 @@ public class EnigmaImpl implements Enigma {
             return buildEncryptedPassword(input, key);
         } catch (EnigmaException e) {
             throw e;
-        }
-    }    
-    
-    @Override
-    public boolean doPasswordsMatch(String input, EnigmaEntity ee) {
-        try {
-            return input.equals(decrypt(ee));
-        } catch (EnigmaException e) {
-            return false;
         }
     }
     
@@ -72,7 +72,7 @@ public class EnigmaImpl implements Enigma {
     
     private String buildNewKey(String input) throws EnigmaException {
         //Get Valid Characters Array ------------------------------
-        int maxEVC = 2; //how many EVC arrays are in class EnigmaVC
+        int maxEVC = evc.getQuantEVC();
         int evcAr = rand.nextInt(maxEVC) + 1;
         String[] myEVC = evc.getEVC(evcAr);
         
@@ -187,7 +187,7 @@ public class EnigmaImpl implements Enigma {
             }
             if (isMatched == false) {
                 String msg = "Password must contain only numbers, English letters, "
-                        + "and common special characters. \n The character " + sub 
+                        + "and common special characters. \nThe character " + sub 
                         + "is not allowed.";
                 throw new EnigmaException(msg);
             }

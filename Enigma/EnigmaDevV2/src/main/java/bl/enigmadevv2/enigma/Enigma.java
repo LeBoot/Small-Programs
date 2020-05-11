@@ -11,7 +11,27 @@ package bl.enigmadevv2.enigma;
  */
 public interface Enigma {
     
-    EnigmaEntity encryptPassword(String input) throws EnigmaException;
+    /**
+     * Compares an non-encrypted password against the encrypted password from an
+     *  Enigma Entity.
+     * @param input
+     * @param ee
+     * @return Returns true if the input exactly matches the encrypted password.
+     * <p>Returns false if the input is incorrect or if an error occurs.</p>
+     */
     boolean doPasswordsMatch(String input, EnigmaEntity ee);
+    
+    /**
+     * Uniquely encrypts input and returns its Enigma Entity (encrypted password
+     *  and its key).
+     * <p>The encrypted password is exactly 64 characters long.
+     *  The key is between 132 and 198 characters long.</p>
+     * @param input
+     * @return Enigma Entity (encrypted password and its key).
+     * @throws EnigmaException if input is too long (>64 characters), too short 
+     *  (<4 characters), comprised by invalid characters (as determined in Class
+     *  EnigmaVC), or an error occurs during processing.
+     */
+    EnigmaEntity encryptPassword(String input) throws EnigmaException;
     
 }
