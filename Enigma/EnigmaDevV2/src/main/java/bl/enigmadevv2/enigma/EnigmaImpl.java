@@ -102,7 +102,7 @@ public class EnigmaImpl implements Enigma {
         String[] doubleEVC = doubleEVC(singleEVC);
         String dec = "";
         
-        //Decrypt to MAX_LENGTH
+        //Decrypt to MAX_LENGTH ----------------------------------
         for (int i = 0; i < enc.length(); i++) {
             String sub = enc.substring(i, i+1);
             for (int j = 0; j < doubleEVC.length; j++) {
@@ -116,7 +116,7 @@ public class EnigmaImpl implements Enigma {
             }
         }
         
-        //Decrypt to original length
+        //Decrypt to original length -----------------------------
         return dec.substring(0, keyAr[keyAr.length - 2]);        
     }
     
@@ -140,7 +140,7 @@ public class EnigmaImpl implements Enigma {
         int len = myEVC.length;
         String[] doubled = new String[len * 2];
         
-        //Build and then return new array ------------------
+        //Build and then return new array
         for (int j = 0; j < (len * 2); j++) {
             if (j < len) {
                 doubled[j] = myEVC[j];
@@ -188,7 +188,7 @@ public class EnigmaImpl implements Enigma {
             if (isMatched == false) {
                 String msg = "Password must contain only numbers, English letters, "
                         + "and common special characters. \nThe character " + sub 
-                        + "is not allowed.";
+                        + " is not allowed.";
                 throw new EnigmaException(msg);
             }
         }
